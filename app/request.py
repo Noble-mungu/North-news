@@ -35,5 +35,57 @@ def get_headlines():
             headlines_results = process_results(headlines_results_list)
 
     return headlines_results
+def get_sources(category):
+        '''
+        Gets the json response to our url request
+        '''
+        get_sources_url = sources_base_url.format(category, api_key)
 
+        with urllib.request.urlopen(get_sources_url) as url:
+                get_sources_data = url.read()
+                get_sources_response = json.loads(get_sources_data)
+
+                sources_results = None
+
+                if get_sources_response['sources']:
+                        sources_results_list = get_sources_response['sources']
+                        sources_results = process_sources(sources_results_list)
+
+        return sources_results
+
+def process_sources(sources):
+        """
+        Process list of sources and returns list of source objects
+        """
+        source_results = []
+        
+        for source in sources:
+                id = source.get("id")
+                name = source.get("name")
+                description = source.get("description")
+                url = source.get("url")
+                category = source.get("category")
+                language = source.get("language")
+                country = source.get("country")
+
+                if description:
+                        new_source = Sources(id, name, description, url, category, language, country)
+                        source_results.append(new_source)
+        return source_results
+
+def get_sources_articles(id):
+
+        get_sources_article_url = sources_article_base_url.format(id,api_key)
+
+        with urllib.request.urlopen(get_headlines_url) as url:
+                get_headlines_data = url.read()
+                get_headlines_response = json.loads(get_headlines_data)
+
+                headlines_results = None
+
+                if get_headlines_response['articles']:
+                        headlines_results_list = get_headlines_response['articles']
+                        headlines_results = process_results(headlines_results_list)
+
+        return headlines_results
 
