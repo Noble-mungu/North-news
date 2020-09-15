@@ -9,4 +9,5 @@ def index():
 
 	# news_headlines = get_headlines()
 	title = 'New Highlight- Fast and reliable way to get news'
-	return render_template('index.html',title = title, headlines = news_headlines)
+	# return render_template('index.html',title = title, headlines = news_headlines)
+	return render_template('index.html')
